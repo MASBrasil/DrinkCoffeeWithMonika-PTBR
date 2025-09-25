@@ -20,8 +20,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel="monika_drink_coffee",
-            category=["us"],
-            prompt="Would you like to drink some coffee with me?",
+            category=["nós"],
+            prompt="Gostaria de tomar um café comigo?"
             conditional="mas_consumable_coffee.enabled()",
             pool=True,
             aff_range=(mas_aff.HAPPY, None),
@@ -36,50 +36,50 @@ label monika_drink_coffee:
         if MASConsumable._getCurrentDrink() == mas_consumable_coffee:
             $ persistent._has_coffee = True
             $ persistent._has_prepared = True
-            m 1hua "I would love to."
+            m 1hua "Claro, eu adoraria tomar café com você."
             if monika_chr.is_wearing_acs(mas_acs_mug):
-                m 3eub "I already have some prepared, so you can go ahead and make yourself some coffee too if you haven't already."
+                m 3eub "Já preparei um aqui, então você também fazer um café para você também, se ainda não tiver feito."
             else:
-                m 3eub "I have some brewing right now, so you can go ahead and make yourself some coffee too if you haven't already."
+                m 3eub "Estou preparando um café agora, então pode aproveitar e fazer o seu também."
             if persistent.seen_playermug:
-                m 3eua "I'll go get your cup out for you.{w=0.5}{nw}"
+                m 3eua "Vou pegar a sua xícara para você.{w=0.5}{nw}"
                 jump drink_with_monika
             else:
                 pass
 
         elif MASConsumable._getCurrentDrink() == mas_consumable_hotchocolate:
             if monika_chr.is_wearing_acs(mas_acs_hotchoc_mug):
-                m 1eud "I would say yes, but I'm already drinking this cup of hot chocolate."
+                m 1eud "Eu diria que sim, mas já estou tomando um chocolate quente."
             else:
-                m 1eud "I would say yes, but I already started heating up some hot chocolate."
-            m 3eub "If you want, you can make yourself some hot chocolate too and we can drink that together instead."
-            m 1hua "Don't worry, [player], I'll have a cup of coffee with you some other time~"
+                m 1eud "Eu diria que sim, mas já comecei a preparar um chocolate quente."
+            m 3eub "Se você quiser, pode preparar um também e tomamos juntos, [ju]."
+            m 1hua "Não se preocupe, [player], da próxima vez vamos tomar café juntinhos~"
 
         else:
             if persistent.amount_of_coffees > 0:
                 if datetime.datetime.now() > persistent.amount_of_coffees_time + datetime.timedelta(hours=9):
                     jump drink_coffee_refresh
-                    
+
                 else:
                     if persistent.amount_of_coffees >= 5:
-                        m 2eksdla "I think we've had enough coffee for today, [mas_get_player_nickname()]."
-                        m 7mksdla "Don't get me wrong,{w=0.5} I like coffee a lot,{w=0.5} but too much of it can do more harm than good."
-                        m 4hkb "I guess it's true what they say:{w=0.3} there {i}can{/i} always be too much of a good thing, Ahaha!"
-                        m 1eka "Don't worry, [player], I'd love to have some coffee with you tomorrow~"
+                        m 2eksdla "Acho que já tomamos café suficiente por hoje, [mas_get_player_nickname()]."
+                        m 7mksdla "Não me leve a mal,{w=0.5} eu adoro café,{w=0.5} mas exagerar pode acabar sendo ruim."
+                        m 4hkb "Acho que é verdade o que dizem:{w=0.3} até coisas boas {i}podem{/i} ser demais, ahaha!"
+                        m 1eka "Não se preocupe, [player], adoraria tomar um café com você de novo amanhã~"
 
                     else:
                         $ persistent._has_prepared = True
                         $ persistent._has_coffee = False
 
-                        m 1etu "You want to have {i}another{/i} cup of coffee with me?"
+                        m 1etu "Quer tomar {i}outra{/i} xícaracomigo?"
                         if mas_globals.time_of_day_4state == "evening":
-                            m 7lud "Alright, but keep in mind it's pretty late, so I don't think we should have any more after this."
-                            m 7eua "I'll go prepare another pot right now.{w=1}{nw}"
+                            m 7lud "Tudo bem, mas lembre que já está tarde, então acho melhor não tomarmos mais depois disso."
+                            m 7eua "Vou preparar outra rodada para nós agora mesmo.{w=1}{nw}"
                             $ persistent.amount_of_coffees = 5
                         else:
                             if persistent.amount_of_coffees == 4:
-                                m 4mub "Wow,{w=0.5} you might like coffee even more than I do..."
-                            m 7hub "Alright, alright, I'll go prepare another pot right now. Ahaha!{w=1}{nw}"
+                                m 4mub "Uau,{w=0.5} você parece gostar de café até mais do que eu…"
+                            m 7hub "Tá bom, tá bom, vou preparar outra rodada para nós~ Ahaha!{w=1}{nw}"
 
                         jump drink_with_monika
 
@@ -89,51 +89,52 @@ label monika_drink_coffee:
     else:
         if MASConsumable._getCurrentDrink() == mas_consumable_coffee:
             if monika_chr.is_wearing_acs(mas_acs_mug):
-                m 1gssdlb "I would say yes, but I'm trying to finish drinking this cup before it gets too late."
+                mm 1gssdlb "Eu até aceitaria, mas quero terminar minha xícara antes que fique tarde."
             else:
-                m 1gssdlb "I would say yes, but I need to finish drinking the coffee that's currently brewing before it gets too late."
-            m 1eka "Don't worry, [player], I'd love to have some coffee with you tomorrow~"
+                m 1gssdlb "Eu até aceitaria, mas preciso terminar de tomar o café que estou preparando antes que fique tarde."
+            m 1eka "Não se preocupe, [player], vamos tomar um café [ju] amanhã~"
 
         else:
-            m 1rksdla "I would say yes, but...{w=0.5}{nw}"
-            extend 3ekd " it's pretty late, [player]."
-            m 4eud "Drinking coffee before bed disrupts your ability to sleep, and poor sleeping habits can lead to some pretty significant health issues."
-            m 7eub "How about you have some tea instead?"
-            m 3eua "A cup of tea before bed can be incredibly relaxing,{w=0.3} and can even ease stress and anxiety."
-            m 1eksdla "Unfortunately, I don't have anything I can use to prepare tea in here, so you'll have to drink some without me."
+            m 1rksdla "Eu diria que sim, mas…{w=0.5}{nw}"
+            extend 3ekd " já está bem tarde, [player]."
+            m 4eud "Tomar café antes de dormir atrapalha o sono, e noites mal dormidas podem afetar bastante a sua saúde."
+            m 7eub "Que tal tomar um chá em vez disso?"
+            m 3eua "Uma xícara de chá antes de dormir pode ser super relaxante,{w=0.3} e até ajuda a aliviar o estresse e a ansiedade."
+            m 1eksdla "Infelizmente, não tenho nada para preparar chá aqui, então você vai ter que tomar sem mim."
 return
 
 label drink_coffee_refresh:
 
-    m 1sub "Of course!"
+    m 1sub "Claro!"
     if mas_globals.time_of_day_4state == "evening":
-        m 7lud "Keep in mind it's pretty late though, so I don't think we should have any more after this."
+        m 7lud "Só lembrando que já está bem tarde… então acho melhor não tomarmos muito café."
         $ persistent.amount_of_coffees = 4
     else:
-        m 3eub "I'll never pass up an opportunity to drink some coffee."
-        m 1hublu "Especially if I get to drink it with you, [mas_get_player_nickname()]~"
+        m 3eub "Nunca perco uma oportunidade de tomar um delicioso café."
+        m 1hublu "Principalmente se posso compartilhá-lo com você, [mas_get_player_nickname()]~"
+
         $ persistent.amount_of_coffees = 0
-    m 7eua "Do you have some prepared already?"
+    m 7eua "Você já preparou seu café?"
 
     $ _history_list.pop()
-    menu: 
-        m "Do you have some prepared already?{fast}"
+    menu:
+        m "Você já preparou seu café?{fast}"
 
-        "Yes.":
+        "Sim.":
             $ persistent._has_prepared = True
             $ persistent._has_coffee = False
-            m 1wuo "I should probably go make some for myself before yours gets cold, then!"
-            m 2eub "I'll be back in a moment.{w=1}{nw}"
+            m 1wuo "Acho que devo fazer um para mim antes que o seu esfrie!"
+            m 2eub "Já volto rapidinho.{w=1}{nw}"
 
-        "No.":
+        "Ainda não.":
             $ persistent._has_prepared = False
             $ persistent._has_coffee = False
-            m 1eub "Let's both take this opportunity to make some coffee for ourselves, then."
-            m 3eua "I'll be back in a couple minutes, so you should go ahead and make yours at the same time."
+            m 1eub "Então vamos aproveitar e preparar nosso café juntos."
+            m 3eua "Volto em alguns minutos, você pode fazer o seu ao mesmo tempo."
             if mas_getSessionLength() >= datetime.timedelta(hours=2):
-                m 4eub "It will also give you an opportunity to stretch your legs a little."
-            m 2euu "Try not to miss me too much, okay?{w=1}{nw}"
-            
+                m 4eub "Aproveite também para esticar um pouco as pernas."
+            m 2euu "Tente não sentir tanta falta de mim...{w=1}{nw}"
+
     jump drink_with_monika
 return
 
@@ -152,66 +153,66 @@ label drink_with_monika:
     $ monika_chr.wear_acs(gt_acs_playermug)
 
     if persistent._has_coffee == True:
-        m 1eua "There we go."
-        m 1eub "Let me know when you get done drinking your coffee, okay?"
+        m 1eua "Pronto~"
+        m 1eub "Me avise quando terminar seu café, tudo bem?"
 
     elif persistent._has_prepared == True:
-        m 3eub "Alright, it's brewing as we speak, so it should be ready in a few minutes."
+        m 3eub "Tudo certo, está preparando agora e deve ficar pronto em alguns minutos."
         if not persistent.seen_playermug:
             m 1rkblsdla ".{w=0.5}.{w=0.5}."
-            m 3rkblsdlb "As you can see, I put out an extra cup on the desk."
-            m 2ekbfa "I thought it might help it feel more like we are drinking our coffee together."
-            m 7hkbfsdlb "I hope that doesn't sound too cheesy."
-            m 1mkbfa "Anyway..."
+            m 3rkblsdlb "Como pode ver, coloquei uma xícara extra na mesa."
+            m 2ekbfa "Pensei que assim ficaria mais como se estivéssemos tomando nosso café juntos."
+            m 7hkbfsdlb "Espero que não soe brega demais…"
+            m 1mkbfa "Enfim…"
             $ persistent.seen_playermug = True
         else:
             pass
-        m 1eub "Let me know when you get done drinking your coffee, okay?"
+        m 1eub "Me avise quando terminar seu café, tá?"
 
     else:
-        m 1eub "I'm back~{w=1}{nw}"
-        m 3eua "You can press the option on screen to let me know when you get back, too.{nw}"
+        m 1eub "Voltei~{w=1}{nw}"
+        m 3eua "Você também pode apertar a opção na tela para me avisar quando voltar.{nw}"
 
         $ _history_list.pop()
         menu:
-            m "You can press the option on screen to let me know when you get back, too.{fast}"
+            m "Você também pode apertar a opção na tela para me avisar quando voltar.{fast}"
 
-            "I'm back!":
-                m 1hub "Welcome back, [mas_get_player_nickname()]!"
+            "Voltei!":
+                m 1hub "Bem-[vn] de volta, [mas_get_player_nickname()]~"
                 if not persistent.seen_playermug:
                     m 1rkblsdla ".{w=0.5}.{w=0.5}."
-                    m 3rkblsdlb "As you can see, I put out an extra cup on the desk."
-                    m 2ekbfa "I thought it might help it feel more like we are drinking our coffee together."
-                    m 7hkbfsdlb "I hope that doesn't sound too cheesy."
-                    m 1mkbfa "Anyway..."
+                    m 3rkblsdlb "Como pode ver, coloquei uma xícara extra na mesa."
+                    m 2ekbfa "Pensei que assim ficaria mais como se estivéssemos tomando nosso café juntos."
+                    m 7hkbfsdlb "Espero que não soe brega demais…"
+                    m 1mkbfa "Enfim…"
                     $ persistent.seen_playermug = True
                 else:
                     pass
-                m 3eub "My coffee has been brewing while you were gone, so it should be ready soon."
-                m 1eub "Let me know when you get done drinking yours, okay?"
+                m 3eub "Meu café ficou pronto enquanto você estava fora, então deve estar quase na temperatura certa."
+                m 1eub "Me avise quando terminar o seu, tá?"
 
     $ persistent._is_drinking_coffee = True
 
-$ mas_idle_mailbox.send_idle_cb("drink_together_callback")
+    $ mas_idle_mailbox.send_idle_cb("drink_together_callback")
 return "idle"
 
 label drink_together_callback:
     $ mas_gainAffection(3, bypass=False)
 
     if mas_brbs.was_idle_for_at_least(datetime.timedelta(minutes=5), "monika_drink_coffee"):
-        m 1eub "Done drinking your coffee, [mas_get_player_nickname()]?"
+        m 1eub "Já terminou seu café, [mas_get_player_nickname()]?"
     else:
-        m 2wuo "You sure drank that fast!"
-        m 1lka "I hope you didn't burn your tongue..."
-    m 3eua "I'll go put this cup back in the cupboard."
+        m 2wuo "Uau, você bebeu rápido demais!"
+        m 1lka "Espero que não tenha queimado a língua…"
+    m 3eua "Vou guardar minha xícara."
     if MASConsumable._getCurrentDrink() == mas_consumable_coffee:
-        m "I'm not quite done drinking my coffee yet, so I'll put my cup away later."
+        m "Ainda não terminei meu café, então vou guardar minha xícara para mais tarde."
     $ monika_chr.remove_acs(gt_acs_playermug)
     call mas_transition_to_emptydesk
     pause 5.0
     call mas_transition_from_emptydesk
-    m 1hua "I'm back!"
-    m 1ekbsu "Thank you for wanting to spend time with me like this."
+    m 1hua "Voltei~"
+    m 1ekbsu "Obrigada por querer passar esse tempinho comigo assim…"
 
     $ persistent.amount_of_coffees += 1
     $ persistent.amount_of_coffees_time = datetime.datetime.now()
