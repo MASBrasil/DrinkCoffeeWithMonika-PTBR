@@ -21,7 +21,7 @@ init 5 python:
             persistent.event_database,
             eventlabel="monika_drink_coffee",
             category=["nós"],
-            prompt="Gostaria de tomar um café comigo?"
+            prompt="Gostaria de tomar um café comigo?",
             conditional="mas_consumable_coffee.enabled()",
             pool=True,
             aff_range=(mas_aff.HAPPY, None),
