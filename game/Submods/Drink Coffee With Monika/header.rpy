@@ -3,7 +3,11 @@ init -990 python in mas_submod_utils:
     Submod(
         author="geneTechnician",
         name="Drink Coffee With Monika",
-        description="Um submod que permite convidar a Monika para tomar um café com você!",
+        description=(
+            "Um submod que permite convidar a Monika para tomar um café com você!\n"
+            "Está com alguma dúvida? Clique "
+            "{a=https://discord.gg/vq5GZBW42R}{b}{i}aqui{/i}{/b}{/a}."
+        ),
         version="1.1.1",
         dependencies={},
         settings_pane=None,
